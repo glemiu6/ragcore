@@ -2,7 +2,7 @@ from pyragcore.embeddings.embedder import Embedder
 from pyragcore.retrieval.vector_store import VectorStore
 from pyragcore.exceptions import RetrievalException
 
-class Retriver:
+class Retriever:
     def __init__(self,vector_store:VectorStore,embedder:Embedder):
         self.vector_store = vector_store
         self.embedder = embedder

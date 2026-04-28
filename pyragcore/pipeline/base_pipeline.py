@@ -2,7 +2,7 @@ from abc import ABC,abstractmethod
 from pyragcore.retrieval.vector_store import VectorStore
 from pyragcore.llm.responder import Responder
 from pyragcore.embeddings.embedder import Embedder
-from pyragcore.retrieval.retriver import Retriver
+from pyragcore.retrieval.retriver import Retriever
 from pyragcore.utils_io.choose_model import choose_model
 
 class BasePipeline(ABC):
@@ -15,7 +15,7 @@ class BasePipeline(ABC):
                                         persist_path=self.persist_dir,
                                         autosave=True,
                                         load_if_exist=True)
-        self.retriever = Retriver(self.vector_store,self.embedder)
+        self.retriever = Retriever(self.vector_store,self.embedder)
         self.responder = Responder(self.model_name)
         self._voice = None
 
