@@ -1,6 +1,6 @@
 [project]
 name = "pyragcore"
-version = "0.1.4"
+version = "0.1.6"
 description = "A reusable RAG core library built on FAISS and Ollama"
 readme = "README.md"
 requires-python = ">=3.13"
@@ -18,6 +18,8 @@ classifiers = [
 dependencies = [
     "faiss-cpu>=1.13.2",
     "tqdm>=4.67.3",
+    "langchain-text-splitters>=0.3.8",
+    "tiktoken>=0.9.0",
 ]
 
 [project.optional-dependencies]
