@@ -23,13 +23,13 @@ class BasePipeline(ABC):
     def ingest(self,source:str)->str:
         pass
 
-    def ask(self, question: str, source_id: str | None = None, chat_history: list[dict] | None = None) -> str:
+    def ask(self, question: str, source_id: str | None = None, chat_history: list[dict] | None = None,stream:bool=True) -> str:
         retriever_results = self.retriever.retrieve(question, source_id)
         print(f"Retrieved {len(retriever_results)} chunks")
         print(f"source_id: {source_id}")
         context = "\n\n".join([r["document"] for r in retriever_results])
         print(f"context length: {len(context)}")
-        response = self.responder.answer(question, context, chat_history)
+        response = self.responder.answer(question, context, chat_history,stream=stream)
         return response
 
     def _is_ingested(self, file_id: str) -> bool:
@@ -38,7 +38,7 @@ class BasePipeline(ABC):
     @property
     def voice(self):
         if self._voice is None:
-            from ragcore.utils_io.voice import Voice
+            from pyragcore.utils_io.voice import Voice
             self._voice = Voice()
         return self._voice
 
