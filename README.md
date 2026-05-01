@@ -5,7 +5,6 @@ A reusable, modular RAG (Retrieval-Augmented Generation) core library built on F
 ---
 ![PyPI](https://img.shields.io/pypi/v/pyragcore)
 ![Downloads](https://img.shields.io/pypi/dm/pyragcore)
-![License](https://img.shields.io/github/license/glemiu6/pyragcore)
 
 ---
 ## Features
