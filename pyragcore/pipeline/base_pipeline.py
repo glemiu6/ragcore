@@ -1,6 +1,6 @@
 from abc import ABC,abstractmethod
 
-from pyragcore import SentenceTransformerEmbedder, FaissVectorStore, FaissRetriever, OllamaResponder
+from pyragcore import SentenceTransformerEmbedder, FaissVectorStore, FaissRetriever, OllamaResponder,RagConfig,BaseLLM
 from pyragcore.interfaces.base_embedder import BaseEmbedder
 from pyragcore.interfaces.base_vector_store import BaseVectorStore
 from pyragcore.utils_io.choose_model import choose_model
@@ -8,19 +8,23 @@ from pyragcore.utils_io.choose_model import choose_model
 class BasePipeline(ABC):
     def __init__(self,persist_dir:str,
                  output_folder:str,
+                 config:RagConfig=None,
                  model_name:str|None=None,
                  embedder:BaseEmbedder=None,
-                 vector_store:BaseVectorStore=None):
+                 vector_store:BaseVectorStore=None,
+                 llm:BaseLLM=None):
         self.persist_dir=persist_dir
         self.output_folder=output_folder
-        self.model_name= model_name or choose_model()
-        self.embedder = embedder or SentenceTransformerEmbedder()
+        self.config=config or RagConfig()
+        self.model_name= model_name or self.config.model_name or choose_model()
+        self.embedder = embedder or SentenceTransformerEmbedder(model_name=self.config.embedding_model,device=self.config.device)
         self.vector_store = vector_store or FaissVectorStore(dim=self.embedder.get_dimension(),
                                                              persist_path=self.persist_dir,
-                                                             autosave=True,
-                                                             load_if_exist=True)
+                                                             autosave=self.config.autosave,
+                                                             load_if_exist=self.config.autosave,
+                                                             metric=self.config.metric)
         self.retriever = FaissRetriever(self.vector_store, self.embedder)
-        self.llm = OllamaResponder(self.model_name)
+        self.llm = llm or OllamaResponder(self.model_name)
         self._voice = None
 
     @abstractmethod
