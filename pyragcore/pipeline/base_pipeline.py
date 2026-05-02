@@ -1,8 +1,13 @@
 from abc import ABC,abstractmethod
 
-from pyragcore import SentenceTransformerEmbedder, FaissVectorStore, FaissRetriever, OllamaResponder,RagConfig,BaseLLM
+from pyragcore.embeddings.sentencetransformerembedder import SentenceTransformerEmbedder
+from pyragcore.retrieval.vector_store import FaissVectorStore
+from pyragcore.retrieval.retriver import FaissRetriever
+from pyragcore.llm.ollama_llm import OllamaResponder
 from pyragcore.interfaces.base_embedder import BaseEmbedder
 from pyragcore.interfaces.base_vector_store import BaseVectorStore
+from pyragcore.interfaces.base_llm import BaseLLM
+from pyragcore.config import RagConfig
 from pyragcore.utils_io.choose_model import choose_model
 
 class BasePipeline(ABC):
