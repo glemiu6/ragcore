@@ -4,7 +4,7 @@ from dataclasses import dataclass
 @dataclass
 class RagConfig:
     # LLM settings
-    model_name: str = "llama3.2"
+    model_name: str|None = None
     stream: bool = True
 
     # Embedding settings

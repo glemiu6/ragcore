@@ -34,24 +34,8 @@ class SentenceTransformerEmbedder(BaseEmbedder):
             raise EmbeddingException(f"Embedding failed: {e}")
 
     def get_dimension(self) ->int:
-        return self.model.get_sentence_embedding_dimension()
+        return self.model.get_embedding_dimension()
 
-    def detect_language(self,texts:str)->(str,float):
-        """
-        Detect the language of a single input or batch using the langid model.
-
-        The method returns the detected language code along with a confidence score.
-        If the confidence score is below the threshold, English ('en') is returned as a fallback language.
-
-        :param texts -> The input text whose language code should be detected.
-
-        Return:
-            Tuple[str,float]: A tuple containing the detected language code and the confidence score.
-        """
-        identifier=LanguageIdentifier.from_modelstring(model, norm_probs=True)
-        lang, score = identifier.classify(texts)
-        response_language = lang if score > 0.7 else 'en'
-        return response_language,score
 
 if __name__=="__main__":
     embedder=SentenceTransformerEmbedder()
