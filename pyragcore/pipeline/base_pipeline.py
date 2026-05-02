@@ -1,6 +1,6 @@
 from abc import ABC,abstractmethod
 
-from pyragcore import Embedder, VectorStore, Retriever, Responder
+from pyragcore import SentenceTransformerEmbedder, VectorStore, FaissRetriever, OllamaResponder
 from pyragcore.interfaces.base_embedder import BaseEmbedder
 from pyragcore.interfaces.base_vector_store import BaseVectorStore
 from pyragcore.utils_io.choose_model import choose_model
@@ -14,13 +14,13 @@ class BasePipeline(ABC):
         self.persist_dir=persist_dir
         self.output_folder=output_folder
         self.model_name= model_name or choose_model()
-        self.embedder = embedder or Embedder()
+        self.embedder = embedder or SentenceTransformerEmbedder()
         self.vector_store = vector_store or VectorStore(dim=self.embedder.get_dimension(),
                                         persist_path=self.persist_dir,
                                         autosave=True,
                                         load_if_exist=True)
-        self.retriever = Retriever(self.vector_store,self.embedder)
-        self.responder = Responder(self.model_name)
+        self.retriever = FaissRetriever(self.vector_store, self.embedder)
+        self.llm = OllamaResponder(self.model_name)
         self._voice = None
 
     @abstractmethod
@@ -33,7 +33,7 @@ class BasePipeline(ABC):
         print(f"source_id: {source_id}")
         context = "\n\n".join([r["document"] for r in retriever_results])
         print(f"context length: {len(context)}")
-        response = self.responder.answer(question, context, chat_history,stream=stream)
+        response = self.llm.answer(question, context, chat_history, stream=stream)
         return response
 
     def _is_ingested(self, file_id: str) -> bool:

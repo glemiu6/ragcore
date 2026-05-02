@@ -2,10 +2,10 @@
 - Added backend agnostic interfaces (`BaseEmbedder`, `BaseVectorStore`, `BaseLLM`, `BaseRetriever`)
 - Moved `BaseLoader` and `BaseChunker` to `interfaces/` folder
 - `BasePipeline` now accepts custom `embedder` and `vector_store` implementations
-- `Embedder` now implements `BaseEmbedder` interface
+- `SentenceTransformerEmbedder` now implements `BaseEmbedder` interface
 - `VectorStore` now implements `BaseVectorStore` interface
-- `Retriever` now implements `BaseRetriever` interface
-- Added `get_dimension()` method to `Embedder`
+- `FaissRetriever` now implements `BaseRetriever` interface
+- Added `get_dimension()` method to `SentenceTransformerEmbedder`
 - `model_name` parameter is now optional in `BasePipeline` — prompts user if not provided
 
 ## 0.1.11
@@ -16,7 +16,7 @@
 
 ## 0.1.9
 - cleaner re-export 
-- corrected the name of the `Retriever` class
+- corrected the name of the `FaissRetriever` class
 - made the function `mmr_search` cleaner
 
 ## 0.1.8

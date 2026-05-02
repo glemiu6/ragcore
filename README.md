@@ -43,16 +43,18 @@ pip install pyragcore[all]         # everything
 
 ```python
 from pyragcore.pipeline.base_pipeline import BasePipeline
-from pyragcore.embeddings.embedder import Embedder
+from pyragcore.embeddings.sentencetransformerembedder import SentenceTransformerEmbedder
 from pyragcore.retrieval.vector_store import VectorStore
-from pyragcore.retrieval.retriver import Retriever
-from pyragcore.llm.responder import Responder
+from pyragcore.retrieval.retriver import FaissRetriever
+from pyragcore.llm.ollama_llm import Responder
+
 
 # Extend BasePipeline for your use case
 class MyPipeline(BasePipeline):
     def ingest(self, source: str) -> str:
         # implement your ingestion logic
         ...
+
 
 pipeline = MyPipeline(persist_dir="./memory", output_folder="./output")
 source_id = pipeline.ingest("./my_document.pdf")
@@ -73,7 +75,7 @@ pyragcore/
 ├── README.md
 └── pyragcore
     ├── embeddings
-    │   └── embedder.py
+    │   └── sentencetransformerembedder.py
     ├── exceptions.py
     ├── ingestion
     │   └── chunker.py
@@ -191,12 +193,12 @@ files = store.list_files()
 
 ---
 
-## Embedder
+## SentenceTransformerEmbedder
 
 ```python
-from pyragcore.embeddings.embedder import Embedder
+from pyragcore.embeddings.sentencetransformerembedder import SentenceTransformerEmbedder
 
-embedder = Embedder(model_name="all-mpnet-base-v2")
+embedder = SentenceTransformerEmbedder(model_name="all-mpnet-base-v2")
 
 # embed multiple texts
 embeddings = embedder.embed(["text one", "text two"])
@@ -240,7 +242,7 @@ from pyragcore.exceptions import (
 
 You can now swap any component with your own implementation:
 
-### Custom Embedder
+### Custom SentenceTransformerEmbedder
 ```python
 from pyragcore import BaseEmbedder
 

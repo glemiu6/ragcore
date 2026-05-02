@@ -1,5 +1,5 @@
 #pyragcore/utils_io/voice.py
-from embeddings.embedder import Embedder
+from embeddings.sentencetransformerembedder import SentenceTransformerEmbedder
 class Voice:
     def __init__(self):
         self.language=None
@@ -21,7 +21,7 @@ class Voice:
                                                   phrase_time_limit=10)  # timeout =the time it wait for the user to speak ; phrase_time_limit= time to speak is there is no silence detected
                 print("done")
                 text:str = recognize.recognize_google(recorded_audio)
-                lang, _ = Embedder.detect_language(texts=text)
+                lang, _ = SentenceTransformerEmbedder.detect_language(texts=text)
                 self.language = lang
                 return text
         except sr.UnknownValueError:

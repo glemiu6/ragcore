@@ -4,7 +4,7 @@ from pyragcore.interfaces.base_vector_store import BaseVectorStore
 from pyragcore.exceptions import RetrievalException
 from pyragcore.interfaces.base_retriever import BaseRetriever
 
-class Retriever(BaseRetriever):
+class FaissRetriever(BaseRetriever):
     def __init__(self,vector_store:BaseVectorStore,embedder:BaseEmbedder):
         self.vector_store = vector_store
         self.embedder = embedder

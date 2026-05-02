@@ -1,16 +1,16 @@
-#pyragcore/embeddings/embedder.py
+#pyragcore/embeddings/sentencetransformerembedder.py
 import torch
 from pyragcore.interfaces.base_embedder import BaseEmbedder
 from sentence_transformers import SentenceTransformer
 from langid.langid import LanguageIdentifier,model
 from pyragcore.exceptions import EmbeddingException
-class Embedder(BaseEmbedder):
+class SentenceTransformerEmbedder(BaseEmbedder):
     def __init__(self,model_name:str="all-mpnet-base-v2",device:str= "cuda" if torch.cuda.is_available() else "cpu"):
         """
-        Embedder: Wraps a SentenceTransformer model and provides utilities for embedding text into
+        SentenceTransformerEmbedder: Wraps a SentenceTransformer model and provides utilities for embedding text into
         vectors representation and detects language for a single input or batches.
         Usage example:
-        embedder = Embedder()
+        embedder = SentenceTransformerEmbedder()
         embeddings=embedder.embed([text])
         """
         self.model=SentenceTransformer(model_name,device=device)
@@ -54,7 +54,7 @@ class Embedder(BaseEmbedder):
         return response_language,score
 
 if __name__=="__main__":
-    embedder=Embedder()
+    embedder=SentenceTransformerEmbedder()
     print("Starting embedding...")
     print(embedder.embed_one("hello world"))
     print(embedder.get_dimension())
